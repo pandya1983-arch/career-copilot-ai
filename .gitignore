@@ -2,4 +2,4 @@ __pycache__/
 *.pyc
 .env
 .vscode/
-node_modules/
+node_modules/pip freeze > backend\requirements.txt
