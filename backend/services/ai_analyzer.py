@@ -35,6 +35,25 @@ SKILLS = [
     "Kubernetes"
 ]
 
+def extract_name(text):
+
+    lines = text.split("\n")
+
+    for line in lines:
+
+        line = line.strip()
+
+        if (
+            len(line) > 5
+            and len(line) < 40
+            and line.isupper()
+            and "@" not in line
+            and "LINKEDIN" not in line.upper()
+            and "HTTP" not in line.upper()
+        ):
+            return line.title()
+
+    return ""
 
 def extract_email(text):
     match = re.search(r'[\w\.-]+@[\w\.-]+\.\w+', text)
@@ -60,7 +79,7 @@ def analyze_resume(text):
 
     doc = nlp(text)
 
-    name = ""
+    name = extract_name(text)
 
     organizations = []
 
@@ -69,6 +88,7 @@ def analyze_resume(text):
     for ent in doc.ents:
 
         if ent.label_ == "PERSON" and not name:
+
             name = ent.text
 
         elif ent.label_ == "ORG":
